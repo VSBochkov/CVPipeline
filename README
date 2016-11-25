@@ -1,0 +1,10 @@
+Dependencies:
+    opencv 3.1.0
+
+Build programm:
+    mkdir build;
+    cd build;
+    cmake ..;
+    make;
+Run programm:
+    cv_pipeline path_to_conf.json

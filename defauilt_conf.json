@@ -1,0 +1,34 @@
+{
+  "device_input": 0,
+  "display_frame": true,
+  "display_overlay": true,
+  "display_debug": true,
+  "image_part": {
+    "x1": 20, "x2": 80,
+    "y1": 50, "y2": 70
+  },
+  "fgbg": {
+    "history":       10000,
+    "min_distance":  100,
+    "fTau":          0.7,
+    "learning_rate": 0.0001,
+    "init_learning_time": 6
+  },
+  "fgsegm": {
+    "dilation_size":      4,
+    "opening_size":       2,
+    "thresh_gravity":     100.5,
+    "dist_mx":            1000.0,
+    "dist_my":            1,
+    "min_contour_perim":  350
+  },
+  "object_tracker": {
+    "intersection_percent": 10,
+    "seconds_wait":         10
+  },
+  "intrusion_area": {
+    "areas": [
+      {"x1": 25, "y1": 25, "x2": 75, "y2": 75 }
+    ]
+  }
+} 
