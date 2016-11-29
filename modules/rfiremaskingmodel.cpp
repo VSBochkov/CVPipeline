@@ -9,7 +9,7 @@ void r_fire_masking_model::compute(cv::Mat& frame, cv_metadata& metadata, cv::Ma
     uchar* frame_matr = frame.data;
     uchar* res_matr   = metadata.fire_mm.r_fire_mask.data;
 
-    if (!draw_overlay) {
+    if (!draw_over) {
     #pragma omp parallel for
         for (int i = 0; i < frame.rows; ++i) {
             for (int j = 0; j < frame.cols; ++j) {

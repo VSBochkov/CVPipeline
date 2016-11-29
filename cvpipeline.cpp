@@ -4,16 +4,17 @@
 
 #include "cvpipeline.h"
 #include "json11.hpp"
-#include "modules/fgbg.h"
+/*#include "modules/fgbg.h"
 #include "modules/fgsegm.h"
 #include "modules/object_tracker.h"
 #include "modules/intrusion_area.h"
 #include "modules/image_part.h"
-#include "modules/object_extracting.h"
+#include "modules/object_extracting.h"*/
 #include "modules/rfiremaskingmodel.h"
 #include "modules/firebbox.h"
 #include "modules/firevalidation.h"
 #include "modules/fireweight.h"
+#include "modules/flamesrcbbox.h"
 
 #include <iostream>
 #include <fstream>

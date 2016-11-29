@@ -6,7 +6,7 @@
 #include <opencv2/imgproc.hpp>
 
 
-fire_weight_distrib::fire_weight_distrib(const json11::Json& fire_weight_distrib_node, cv_caps *capabs_ptr, cv_time timestamp, bool ip_del = false, bool over_draw = false):
+fire_weight_distrib::fire_weight_distrib(const json11::Json& fire_weight_distrib_node, cv_caps *capabs_ptr, cv_time timestamp, bool ip_del, bool over_draw):
     cv_module(capabs_ptr, timestamp, ip_del, over_draw) {
     counter = 0;
     settings.period = (float)fire_weight_distrib_node["period"].number_value();//0.5;
@@ -27,7 +27,7 @@ void fire_weight_distrib::compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat
     uchar* timings_matr = timings.data;
     float* base_matr = (float*)base.data;
 
-    if (!draw_overlay) {
+    if (!draw_over) {
     #pragma omp parallel for
         for (int i = 0; i < fire_mask.rows; ++i) {
             for (int j = 0; j < fire_mask.cols; ++j) {

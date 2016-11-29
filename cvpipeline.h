@@ -30,7 +30,7 @@ struct point
 
 
 struct cv_time {
-    time_t   time;
+    time_t   time_sec;
     clock_t  clocks;
 
     cv_time(bool current = true)
@@ -43,10 +43,10 @@ struct cv_time {
 
     cv_time& operator-(cv_time& from)
     {
-        difftime(time, from.time);
+        difftime(time_sec, from.time_sec);
         if (from.clocks > clocks)
         {
-            time -= 1;
+            time_sec -= 1;
             clocks = CLOCKS_PER_SEC + clocks - from.clocks;
         }
     }
@@ -54,13 +54,13 @@ struct cv_time {
     cv_time& operator+(cv_time& arg)
     {
         clocks += arg.clocks;
-        time += arg.time + (time_t) (clocks / CLOCKS_PER_SEC);
+        time_sec += arg.time_sec + (time_t) (clocks / CLOCKS_PER_SEC);
         clocks %= CLOCKS_PER_SEC;
     }
 
     void get_time()
     {
-        time = time(NULL);
+        time_sec = time(NULL);
         clocks = clock() % CLOCKS_PER_SEC;
     }
 
@@ -69,13 +69,13 @@ struct cv_time {
         struct tm null_time;
         null_time.tm_year = 0; null_time.tm_mon = 0; null_time.tm_yday = 0;
         null_time.tm_hour = 0; null_time.tm_min = 0; null_time.tm_sec = 0;
-        time = mktime(&null_time);
+        time_sec = mktime(&null_time);
         clocks = 0;
     }
 
     unsigned long long millis()
     {
-        unsigned long long res = time * 1000;
+        unsigned long long res = (unsigned long long)time_sec * 1000;
         return res + clocks * 1000 / CLOCKS_PER_SEC;
     }
 };

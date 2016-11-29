@@ -2,6 +2,7 @@
 #include "firevalidation.h"
 #include "rfiremaskingmodel.h"
 #include "../cvpipeline.h"
+#include "flamesrcbbox.h"
 
 #include <omp.h>
 #include <opencv2/imgproc.hpp>
@@ -98,7 +99,7 @@ std::vector<cv_object> fire_bbox::calc_bboxes(cv::Mat proc_mask, cv::Mat overlay
     int deleted = 0;
     for (auto& base_bbox : base_bboxes) {
         if ((metadata.timestamp - base_bbox.timestamp + base_bbox.lifetime).millis() <= (unsigned long long) (settings.dtime_thresh * 1000)) {
-            if (draw_overlay)
+            if (draw_over)
                 cv::rectangle(overlay, base_bbox.bbox, bbox_color, 1);
 
             result_bboxes.push_back(base_bbox);

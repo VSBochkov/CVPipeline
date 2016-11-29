@@ -37,7 +37,7 @@ void fire_validation::compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& ov
     float* dma_matr         = (float*)dma.data;
     uchar* res_mask         = metadata.dynamic_mask.data;
 
-    if (!draw_overlay) {
+    if (!draw_over) {
     #pragma omp parallel for
         for (int i = 0; i < frame.rows; ++i) {
             for (int j = 0; j < frame.cols; ++j) {
