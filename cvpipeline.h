@@ -121,8 +121,10 @@ struct cv_metadata {
     } fire_mm;
     cv::Mat dynamic_mask;
     std::vector<cv_object> fire_valid_bboxes;
-    cv::Mat static_mask;
-    cv::Mat flame_mask;
+    struct fire_weight_data {
+        cv::Mat flame_mask;
+        int pixel_cnt;
+    } fire_weight;
     std::vector<cv_object> flame_bboxes;
 };
 

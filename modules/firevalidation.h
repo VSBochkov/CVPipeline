@@ -15,7 +15,7 @@ struct fire_validation_settings
 class fire_validation : public cv_module {
 public:
     fire_validation(const json11::Json& fire_valid_node, cv_caps *capabs_ptr, cv_time timestamp, bool ip_del = false, bool over_draw = false);
-    void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
+    virtual void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
 
 private:
     template<class Type1, class Type2> double dist(cv::Point3_<Type1> p1, cv::Point3_<Type2> p2);

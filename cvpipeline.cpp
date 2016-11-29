@@ -13,6 +13,7 @@
 #include "modules/rfiremaskingmodel.h"
 #include "modules/firebbox.h"
 #include "modules/firevalidation.h"
+#include "modules/fireweight.h"
 
 #include <iostream>
 #include <fstream>
@@ -109,7 +110,7 @@ cvpipeline::cvpipeline(std::string filename) {
             json["fire_bbox"]["ip_deliver"].bool_value()
         ));
     if (json["fire_weight"].is_object())
-        modules.push_back(new fire_weight(
+        modules.push_back(new fire_weight_distrib(
             json["fire_weight"], &caps, timestamp,
             json["fire_weight"]["draw_overlay"].bool_value(),
             json["fire_weight"]["ip_deliver"].bool_value()

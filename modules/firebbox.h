@@ -1,9 +1,6 @@
 #ifndef FIRE_BBOX_H
 #define FIRE_BBOX_H
 
-#include <QSharedPointer>
-#include <QDataStream>
-#include "cvgraphnode.h"
 #include "../cvpipeline.h"
 #include "../json11.hpp"
 #include <vector>
@@ -18,12 +15,12 @@ struct fire_bbox_settings
 
 class fire_bbox : public cv_module {
 public:
-    fire_bbox(const json11::Json& fgbg_node, cv_caps *capabs_ptr, time_t timestamp, bool ip_del = false, bool over_draw = false);
+    fire_bbox(const json11::Json& fgbg_node, cv_caps *capabs_ptr, cv_time timestamp, bool ip_del = false, bool over_draw = false);
     virtual ~fire_bbox() {}
-    void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
+    virtual void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
 
 protected:
-    std::vector<cv_object> calc_bboxes(cv::Mat proc_mask, cv::Mat overlay, ulong pixel_cnt, cv::Scalar bbox_color, CVKernel::CVProcessData &process_data);
+    std::vector<cv_object> calc_bboxes(cv::Mat proc_mask, cv::Mat overlay, int pixel_cnt, cv::Scalar bbox_color, cv_metadata &metadata);
 
     cv::Rect intersection(cv::Rect rect1, cv::Rect rect2) {
         int x1 = std::max(rect1.x, rect2.x);

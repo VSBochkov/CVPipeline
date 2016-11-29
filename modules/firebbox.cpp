@@ -7,18 +7,17 @@
 #include <opencv2/imgproc.hpp>
 
 
-fire_bbox::fire_bbox(const json11::Json& fbbox_node, cv_caps *capabs_ptr, time_t timestamp, bool draw_overlay, bool ip_deliver) :
+fire_bbox::fire_bbox(const json11::Json& fbbox_node, cv_caps *capabs_ptr, cv_time timestamp, bool draw_overlay, bool ip_deliver) :
         cv_module(capabs_ptr, timestamp, draw_overlay, ip_deliver)
 {
     settings.grav_thresh = fbbox_node["grav_thresh"].number_value();//5.;
     settings.min_area_percent = fbbox_node["min_area_percent"].number_value();//10;
     settings.intersect_thresh = fbbox_node["intersect_thresh"].number_value();//0.4;
     settings.dtime_thresh = fbbox_node["dtime_thresh"].number_value();//0.1;
-    settings.aver_bbox_square = fbbox_node["aver_bbox_square"].number_value();//0.;
 }
 
 
-std::vector<cv_object> fire_bbox::calc_bboxes(cv::Mat proc_mask, cv::Mat overlay, ulong pixel_cnt, cv::Scalar bbox_color, cv_metadata &metadata) {
+std::vector<cv_object> fire_bbox::calc_bboxes(cv::Mat proc_mask, cv::Mat overlay, int pixel_cnt, cv::Scalar bbox_color, cv_metadata &metadata) {
     std::vector<std::vector<cv::Point>> contours;
     cv::findContours(proc_mask.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
