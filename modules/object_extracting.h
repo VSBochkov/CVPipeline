@@ -16,7 +16,7 @@ struct object_extr_settings {
 
 class object_extracting: public cv_module {
 public:
-    object_extracting(const json11::Json& oe_node, cv_caps *capabs_ptr, time_t timestamp);
+    object_extracting(const json11::Json& oe_node, cv_caps *capabs_ptr, cv_time timestamp);
     void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
     void draw_overlay(cv::Mat overlay);
 

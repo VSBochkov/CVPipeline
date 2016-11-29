@@ -14,8 +14,8 @@ object_tracker::object_tracker(
     settings.seconds_wait         = objtr_node["seconds_wait"].int_value();
 }
 
-double object_tracker::get_intersection_percent(rect& obj_bbox, rect& bbox) {
-    rect intersect;
+double object_tracker::get_intersection_percent(cv::Rect& obj_bbox, cv::Rect& bbox) {
+    cv::Rect intersect;
     double sq = 0.;
     if (obj_bbox.intersection(bbox, intersect)) {
         int bbox_sq = bbox.square();

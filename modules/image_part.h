@@ -15,7 +15,7 @@ struct image_part_settings {
 
 class image_part: public cv_module {
 public:
-    image_part(const json11::Json& extraction_node, cv_caps *capabs_ptr, time_t timestamp);
+    image_part(const json11::Json& extraction_node, cv_caps *capabs_ptr, cv_time timestamp);
     virtual ~image_part() {}
     void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
     void draw_overlay(cv::Mat overlay);

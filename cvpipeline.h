@@ -134,7 +134,7 @@ struct cv_caps {
 
 class cv_module {
 public:
-    cv_module(cv_caps* capabs_ptr, time_t current_time, bool draw = false, bool ip = false) {
+    cv_module(cv_caps *capabs_ptr, cv_time current_time, bool draw = false, bool ip = false) {
         caps = capabs_ptr;
         init_time = current_time;
         draw_over = draw;
@@ -153,7 +153,7 @@ private:
 
 protected:
     cv_caps* caps;
-    time_t init_time;
+    cv_time init_time;
 public:
     bool draw_over;
     bool ip_deliver;

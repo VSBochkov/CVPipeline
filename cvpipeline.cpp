@@ -12,6 +12,7 @@
 #include "modules/object_extracting.h"
 #include "modules/rfiremaskingmodel.h"
 #include "modules/firebbox.h"
+#include "modules/firevalidation.h"
 
 #include <iostream>
 #include <fstream>
@@ -52,8 +53,8 @@ cvpipeline::cvpipeline(std::string filename) {
                 cv::Size(caps.frame_width, caps.frame_height)
         );
     }
-    time_t timestamp = time(NULL);
-    if (json["image_part"].is_object())
+    cv_time timestamp = cv_time(true);
+    /*if (json["image_part"].is_object())
         modules.push_back(new image_part(
             json["image_part"], &caps, timestamp,
             json["image_part"]["draw_overlay"].bool_value(),
@@ -89,7 +90,7 @@ cvpipeline::cvpipeline(std::string filename) {
             json["intrusion_area"]["draw_overlay"].bool_value(),
             json["intrusion_area"]["ip_deliver"].bool_value()
         ));
-    if (json["r_fire_mm"].is_object())
+    */if (json["r_fire_mm"].is_object())
         modules.push_back(new r_fire_masking_model(
             json["r_fire_mm"], &caps, timestamp,
             json["r_fire_mm"]["draw_overlay"].bool_value(),

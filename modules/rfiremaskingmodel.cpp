@@ -2,7 +2,7 @@
 #include <opencv2/imgproc.hpp>
 
 
-r_fire_masking_model::r_fire_masking_model(const json11::Json& ia_node, cv_caps *capabs_ptr, time_t timestamp, bool draw_overlay, bool ip_deliver) :
+r_fire_masking_model::r_fire_masking_model(const json11::Json& ia_node, cv_caps *capabs_ptr, cv_time timestamp, bool draw_overlay, bool ip_deliver) :
     cv_module(capabs_ptr, timestamp, draw_overlay, ip_deliver) {}
 
 void r_fire_masking_model::compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay) {

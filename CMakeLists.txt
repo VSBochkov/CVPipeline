@@ -10,18 +10,6 @@ set(SOURCE_FILES
     json11.hpp
     cvpipeline.cpp
     cvpipeline.h
-    modules/fgbg.cpp
-    modules/fgbg.h
-    modules/fgsegm.cpp
-    modules/fgsegm.h
-    modules/object_tracker.cpp
-    modules/object_tracker.h
-    modules/intrusion_area.cpp
-    modules/intrusion_area.h
-    modules/image_part.cpp
-    modules/image_part.h
-    modules/object_extracting.cpp
-    modules/object_extracting.h
     modules/firebbox.cpp
     modules/firebbox.h
     modules/firevalidation.cpp

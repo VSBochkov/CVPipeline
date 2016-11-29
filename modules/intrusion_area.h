@@ -16,7 +16,7 @@ struct ia_settings
 
 class intrusion_area: public cv_module {
 public:
-    intrusion_area(const json11::Json& ia_node, cv_caps *capabs_ptr, time_t timestamp);
+    intrusion_area(const json11::Json& ia_node, cv_caps *capabs_ptr, cv_time timestamp);
     void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
     void draw_overlay(cv::Mat overlay);
 

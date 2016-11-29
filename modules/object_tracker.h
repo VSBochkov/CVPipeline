@@ -17,7 +17,7 @@ struct object_tracker_settings {
 
 class object_tracker: public cv_module {
 public:
-    object_tracker(const json11::Json& objtr_node, cv_caps *capabs_ptr, time_t timestamp);
+    object_tracker(const json11::Json& objtr_node, cv_caps *capabs_ptr, cv_time timestamp);
     void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
 
 private:

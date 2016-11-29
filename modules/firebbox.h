@@ -19,8 +19,7 @@ struct fire_bbox_settings
 class fire_bbox : public cv_module {
 public:
     fire_bbox(const json11::Json& fgbg_node, cv_caps *capabs_ptr, time_t timestamp, bool ip_del = false, bool over_draw = false);
-    fire_bbox(const json11::Json& fgbg_node, cv_caps *capabs_ptr, time_t timestamp);
-    virtual ~fgsegm() {}
+    virtual ~fire_bbox() {}
     void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
 
 protected:
