@@ -28,70 +28,102 @@ struct point
     }
 };
 
-struct rect {
-    point p1;
-    point p2;
-    rect(point a1 = point(), point a2 = point()) : p1(a1), p2(a2) {}
-    rect(cv::Rect r, double hx = 1.0, double hy = 1.0) {
-        p1.x = (int)(r.x * hx);
-        p1.y = (int)(r.y * hy);
-        p2.x = (int)((r.x + r.width) * hx);
-        p2.y = (int)((r.y + r.height) * hy);
+
+struct cv_time {
+    time_t   time;
+    clock_t  clocks;
+
+    cv_time(bool current = true)
+    {
+        if (current)
+            get_time();
+        else
+            null_time();
     }
-    operator cv::Rect() {
-        cv::Rect r;
-        r.x = p1.x;
-        r.y = p1.y;
-        r.height = p2.y - p1.y;
-        r.width = p2.x - p1.x;
-        return r;
+
+    cv_time& operator-(cv_time& from)
+    {
+        difftime(time, from.time);
+        if (from.clocks > clocks)
+        {
+            time -= 1;
+            clocks = CLOCKS_PER_SEC + clocks - from.clocks;
+        }
     }
-    int square() {
-        return abs(p2.x - p1.x) * abs(p2.y - p1.y);
+
+    cv_time& operator+(cv_time& arg)
+    {
+        clocks += arg.clocks;
+        time += arg.time + (time_t) (clocks / CLOCKS_PER_SEC);
+        clocks %= CLOCKS_PER_SEC;
     }
-    int perimeter() {
-        return 2 * (abs(p2.x - p1.x) + abs(p2.y - p1.y));
+
+    void get_time()
+    {
+        time = time(NULL);
+        clocks = clock() % CLOCKS_PER_SEC;
     }
-    bool intersection(rect arg, rect& intersect) {
-        intersect.p1 = point(p1.x > arg.p1.x ? p1.x : arg.p1.x, p1.y > arg.p1.y ? p1.y : arg.p1.y);
-        intersect.p2 = point(p2.x < arg.p2.x ? p2.x : arg.p2.x, p2.y < arg.p2.y ? p2.y : arg.p2.y);
-        return intersect.p1.x <= intersect.p2.x && intersect.p1.y <= intersect.p2.y;
+
+    void null_time()
+    {
+        struct tm null_time;
+        null_time.tm_year = 0; null_time.tm_mon = 0; null_time.tm_yday = 0;
+        null_time.tm_hour = 0; null_time.tm_min = 0; null_time.tm_sec = 0;
+        time = mktime(&null_time);
+        clocks = 0;
+    }
+
+    unsigned long long millis()
+    {
+        unsigned long long res = time * 1000;
+        return res + clocks * 1000 / CLOCKS_PER_SEC;
     }
 };
 
-
 struct cv_object {
     int id;
-    time_t timestamp;
-    time_t lifetime;
-    rect bbox;
-    std::string type;
+    cv_time timestamp;
+    cv_time lifetime;
+    cv::Rect bbox;
     std::string value;
-    cv_object *linked_obj;
     cv_object(
-            int o_id, time_t o_timestamp, rect o_bbox = rect(), std::string o_type = "",
-            std::string o_value = "", cv_object *o_linked_obj = NULL
+            int o_id, cv_time o_timestamp = cv_time(true), cv::Rect o_bbox = cv::Rect(),
+            std::string o_value = ""//, cv_object *o_linked_obj = NULL
     ) {
         id = o_id;
         bbox = o_bbox;
         timestamp = o_timestamp;
-        struct tm null_time;
-        null_time.tm_year = 0; null_time.tm_mon = 0; null_time.tm_yday = 0;
-        null_time.tm_hour = 0; null_time.tm_min = 0; null_time.tm_sec = 0;
-        lifetime = mktime(&null_time);
-        type = o_type;
+        lifetime = cv_time(false);
         value = o_value;
-        linked_obj = o_linked_obj;
+    }
+
+    std::ostream& operator<<(std::ostream &out)
+    {
+        out << bbox.x << bbox.y << bbox.height << bbox.width;
+    }
+
+    std::istream& operator>>(std::istream &in)
+    {
+        in >> bbox.x >> bbox.y >> bbox.height >> bbox.width;
     }
 };
 
 struct cv_metadata {
-    time_t timestamp;
     double fps;
+    cv_time timestamp;
     cv::Mat fg_mask;
-    std::list<rect> bboxes;
+    std::list<cv::Rect> bboxes;
     std::list<cv_object> objects;
     std::list<std::string> events;
+    struct fire_mm_data {
+        cv::Mat r_fire_mask;
+        int pixel_cnt;
+    } fire_mm;
+    cv::Mat dynamic_mask;
+    std::vector<cv_object> fire_valid_bboxes;
+    cv::Mat static_mask;
+    cv::Mat flame_mask;
+    std::vector<cv_object> flame_bboxes;
 };
 
 struct cv_caps {
@@ -102,13 +134,16 @@ struct cv_caps {
 
 class cv_module {
 public:
-    cv_module(cv_caps* capabs_ptr, time_t current_time) {
+    cv_module(cv_caps* capabs_ptr, time_t current_time, bool draw = false, bool ip = false) {
         caps = capabs_ptr;
         init_time = current_time;
+        draw_over = draw;
+        ip_deliver = ip;
     }
     virtual ~cv_module() {};
     virtual void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay) {
-        this->draw_overlay(overlay);
+        if (draw_over)
+            this->draw_overlay(overlay);
     };
     virtual void draw_overlay(cv::Mat overlay) {}
 
@@ -119,6 +154,9 @@ private:
 protected:
     cv_caps* caps;
     time_t init_time;
+public:
+    bool draw_over;
+    bool ip_deliver;
 };
 
 class cvpipeline {

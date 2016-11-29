@@ -7,8 +7,9 @@
 #include <opencv2/opencv.hpp>
 #include "object_extracting.h"
 
-object_extracting::object_extracting(const json11::Json& oe_node, cv_caps *capabs_ptr, time_t timestamp):
-    cv_module(capabs_ptr, timestamp) {
+object_extracting::object_extracting(
+        const json11::Json& oe_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip
+) : cv_module(capabs_ptr, timestamp, draw, ip) {
     settings.net_cols = oe_node["net_cols"].int_value();
     settings.net_rows = oe_node["net_rows"].int_value();
     range_net.resize(settings.net_rows);

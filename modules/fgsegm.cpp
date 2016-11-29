@@ -5,8 +5,8 @@
 #include "fgsegm.h"
 
 fgsegm::fgsegm(
-        const json11::Json& fgsegm_node, cv_caps *capabs_ptr, time_t timestamp
-): cv_module(capabs_ptr, timestamp) {
+        const json11::Json& fgsegm_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip
+) : cv_module(capabs_ptr, timestamp, draw, ip) {
     settings.min_contour_perim   = fgsegm_node["min_contour_perim"].int_value();
     settings.thresh_gravity      = fgsegm_node["thresh_gravity"].number_value();
     settings.dilation_size       = fgsegm_node["dilation_size"].int_value();

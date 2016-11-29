@@ -6,8 +6,8 @@
 #include "fgbg.h"
 
 fgbg::fgbg(
-        const json11::Json &fgbg_node, cv_caps *capabs_ptr, time_t timestamp
-) : cv_module(capabs_ptr, timestamp) {
+        const json11::Json &fgbg_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip
+) : cv_module(capabs_ptr, timestamp, draw, ip) {
     settings.history             = fgbg_node["history"].int_value();
     settings.learning_rate       = fgbg_node["learning_rate"].number_value();
     settings.min_distance        = fgbg_node["min_distance"].int_value();

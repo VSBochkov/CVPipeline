@@ -21,7 +21,7 @@ struct fgbg_settings {
 
 class fgbg: public cv_module {
 public:
-    fgbg(const json11::Json& fgbg_node, cv_caps *capabs_ptr, time_t timestamp);
+    fgbg(const json11::Json& fgbg_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip);
     void compute(cv::Mat& frame, cv_metadata& metadata, cv::Mat& overlay);
 
 private:

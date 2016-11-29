@@ -7,8 +7,8 @@
 #include "object_tracker.h"
 
 object_tracker::object_tracker(
-        const json11::Json &objtr_node, cv_caps *capabs_ptr, time_t timestamp
-) : cv_module(capabs_ptr, timestamp) {
+        const json11::Json &objtr_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip
+) : cv_module(capabs_ptr, timestamp, draw, ip) {
     global_id_counter = 0;
     settings.intersection_percent = objtr_node["intersection_percent"].number_value();
     settings.seconds_wait         = objtr_node["seconds_wait"].int_value();

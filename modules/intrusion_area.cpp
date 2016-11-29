@@ -7,8 +7,8 @@
 #include "intrusion_area.h"
 
 intrusion_area::intrusion_area(
-        const json11::Json& ia_node, cv_caps *capabs_ptr, time_t timestamp
-) : cv_module(capabs_ptr, timestamp) {
+        const json11::Json& ia_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip
+) : cv_module(capabs_ptr, timestamp, draw, ip) {
     double dx = capabs_ptr->frame_width / 100;
     double dy = capabs_ptr->frame_height / 100;
     std::vector<json11::Json> areas = ia_node["areas"].array_items();

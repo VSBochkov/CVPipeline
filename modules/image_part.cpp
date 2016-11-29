@@ -6,8 +6,9 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include "image_part.h"
 
-image_part::image_part(const json11::Json& extraction_node, cv_caps *capabs_ptr, time_t timestamp) :
-    cv_module(capabs_ptr, timestamp) {
+image_part::image_part(
+        const json11::Json& extraction_node, cv_caps *capabs_ptr, time_t timestamp, bool draw, bool ip
+) : cv_module(capabs_ptr, timestamp, draw, ip) {
     double dx = capabs_ptr->frame_width / 100;
     double dy = capabs_ptr->frame_height / 100;
     settings.image_region = rect(
