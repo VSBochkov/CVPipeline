@@ -11,6 +11,7 @@
 #include "modules/image_part.h"
 #include "modules/object_extracting.h"
 #include "modules/rfiremaskingmodel.h"
+#include "modules/firebbox.h"
 
 #include <iostream>
 #include <fstream>
