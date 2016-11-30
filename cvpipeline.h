@@ -49,6 +49,7 @@ struct cv_time {
             time_sec -= 1;
             clocks = CLOCKS_PER_SEC + clocks - from.clocks;
         }
+        return *this;
     }
 
     cv_time& operator+(cv_time& arg)
@@ -56,6 +57,7 @@ struct cv_time {
         clocks += arg.clocks;
         time_sec += arg.time_sec + (time_t) (clocks / CLOCKS_PER_SEC);
         clocks %= CLOCKS_PER_SEC;
+        return *this;
     }
 
     void get_time()
@@ -111,10 +113,10 @@ struct cv_object {
 struct cv_metadata {
     double fps;
     cv_time timestamp;
-    cv::Mat fg_mask;
+    /*cv::Mat fg_mask;
     std::list<cv::Rect> bboxes;
     std::list<cv_object> objects;
-    std::list<std::string> events;
+    std::list<std::string> events;*/
     struct fire_mm_data {
         cv::Mat r_fire_mask;
         int pixel_cnt;
@@ -126,6 +128,12 @@ struct cv_metadata {
         int pixel_cnt;
     } fire_weight;
     std::vector<cv_object> flame_bboxes;
+    cv_metadata(cv::Mat frame)
+    {
+        fire_mm.r_fire_mask = cv::Mat(frame.rows, frame.cols, CV_8UC1);
+        dynamic_mask = cv::Mat(frame.rows, frame.cols, CV_8UC1);
+        fire_weight.flame_mask = cv::Mat(frame.rows, frame.cols, CV_8UC1);
+    }
 };
 
 struct cv_caps {
@@ -163,7 +171,7 @@ public:
 
 class cvpipeline {
 public:
-    cvpipeline(std::string filename);
+    cvpipeline(std::string& filename);
     ~cvpipeline();
 
     void process();

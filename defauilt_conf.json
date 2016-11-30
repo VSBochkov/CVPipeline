@@ -1,34 +1,30 @@
 {
-  "device_input": 0,
+  "file_input": "/home/vbochkov/workspace/documents/FIRE/fire1.mp4",
+  "file_output":"/home/vbochkov/workspace/documents/FIRE/fire1_output.avi",
   "display_frame": true,
   "display_overlay": true,
-  "display_debug": true,
-  "image_part": {
-    "x1": 20, "x2": 80,
-    "y1": 50, "y2": 70
+  "r_fire_mm": {},
+  "fire_valid": {
+    "alpha1": 0.25,
+    "alpha2": 0.75,
+    "dma_thresh": 12.0
   },
-  "fgbg": {
-    "history":       10000,
-    "min_distance":  100,
-    "fTau":          0.7,
-    "learning_rate": 0.0001,
-    "init_learning_time": 6
+  "fire_bbox": {
+    "grav_thresh": 5.0,
+    "min_area_percent": 10.0,
+    "intersect_thresh": 0.4,
+    "dtime_thresh": 0.1
   },
-  "fgsegm": {
-    "dilation_size":      4,
-    "opening_size":       2,
-    "thresh_gravity":     100.5,
-    "dist_mx":            1000.0,
-    "dist_my":            1,
-    "min_contour_perim":  350
+  "fire_weight": {
+    "draw_overlay": true,
+    "period": 0.5,
+    "weight_thresh": 0.3,
+    "time_thresh": 3.0
   },
-  "object_tracker": {
-    "intersection_percent": 10,
-    "seconds_wait":         10
-  },
-  "intrusion_area": {
-    "areas": [
-      {"x1": 25, "y1": 25, "x2": 75, "y2": 75 }
-    ]
+  "flame_src_bbox": {
+    "grav_thresh": 10.0,
+    "min_area_percent": 10.0,
+    "intersect_thresh": 0.4,
+    "dtime_thresh": 0.5
   }
 } 

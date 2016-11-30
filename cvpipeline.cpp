@@ -21,7 +21,7 @@
 #include <opencv2/opencv.hpp>
 
 
-cvpipeline::cvpipeline(std::string filename) {
+cvpipeline::cvpipeline(std::string& filename) {
     display_frame = display_overlay = false;
 
     std::ifstream file(filename.c_str());
@@ -92,7 +92,8 @@ cvpipeline::cvpipeline(std::string filename) {
             json["intrusion_area"]["draw_overlay"].bool_value(),
             json["intrusion_area"]["ip_deliver"].bool_value()
         ));
-    */if (json["r_fire_mm"].is_object())
+    */
+    if (json["r_fire_mm"].is_object())
         modules.push_back(new r_fire_masking_model(
             json["r_fire_mm"], &caps, timestamp,
             json["r_fire_mm"]["draw_overlay"].bool_value(),
@@ -157,23 +158,18 @@ void cvpipeline::process() {
         } else break;
         if (draw_overlay)
             frame.copyTo(overlay);
-        cv_metadata metadata;
-        metadata.timestamp = time(NULL);
-        cv::Mat _overlay = overlay;
+        cv_metadata metadata(frame);
+        metadata.timestamp = cv_time(true);
         for (auto &module: modules)
-            module->compute(frame, metadata, _overlay);
-        for (auto &event: metadata.events)
-            std::cout << event << std::endl;
-        if (video_output.isOpened())
+            module->compute(frame, metadata, overlay);
+        if (draw_overlay && video_output.isOpened())
             video_output << overlay;
-        else if (!image_output.empty())
+        else if (draw_overlay && !image_output.empty())
             cv::imwrite(image_output, overlay);
         if (display_frame)
             cv::imshow("frame", frame);
-        if (display_overlay)
+        if (draw_overlay && display_overlay)
             cv::imshow("overlay", overlay);
-        if (display_debug)
-            cv::imshow("fgbg", metadata.fg_mask);
         int delay_ms = (int) (1000. / caps.fps - (int)((float)(clock() - start) / CLOCKS_PER_SEC * 1000));
         cv::waitKey(0);//delay_ms > 0 ? delay_ms : 1);
     }

@@ -98,7 +98,7 @@ std::vector<cv_object> fire_bbox::calc_bboxes(cv::Mat proc_mask, cv::Mat overlay
 
     int deleted = 0;
     for (auto& base_bbox : base_bboxes) {
-        if ((metadata.timestamp - base_bbox.timestamp + base_bbox.lifetime).millis() <= (unsigned long long) (settings.dtime_thresh * 1000)) {
+        if (((metadata.timestamp - base_bbox.timestamp) + base_bbox.lifetime).millis() <= (unsigned long long) (settings.dtime_thresh * 1000)) {
             if (draw_over)
                 cv::rectangle(overlay, base_bbox.bbox, bbox_color, 1);
 
